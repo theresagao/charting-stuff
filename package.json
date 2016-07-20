@@ -7,17 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "scss": "node-sass --output-style expanded --source-map-contents --indent-type space --indent-width 4 -o css/ scss/*",
     "autoprefixer": "postcss -u autoprefixer --autoprefixer.browsers '> 1%, last 3 version' -r css/style.css",
-
     "serve": "browser-sync start --server --startPath '/' --files 'css/*.css, js/*.js, index.html'",
-
     "build:scss": "npm run scss && npm run autoprefixer",
-
     "build:all": "npm run build:scss",
-
     "watch:scss": "onchange 'scss/*.scss' -- npm run build:scss",
-
     "watch:all": "parallelshell 'npm run serve' 'npm run watch:scss'"
-
   },
   "keywords": [
     "charts",
@@ -32,6 +26,7 @@
     "autoprefixer": "^6.3.7",
     "browser-sync": "^2.13.0",
     "browserify": "^13.0.1",
+    "commonjs-require": "^1.4.6",
     "eslint": "^3.0.1",
     "htmlmin": "0.0.6",
     "imagemin-cli": "^3.0.0",
@@ -42,5 +37,8 @@
     "svg-sprite-generator": "0.0.7",
     "svgo": "^0.6.6",
     "uglify-js": "^2.7.0"
+  },
+  "dependencies": {
+    "echarts": "^3.2.2"
   }
 }
