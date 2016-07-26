@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--Script Reference[1]-->
+<meta charset="UTF-8">
+    <title>Enter page title here</title>
+    <link rel="stylesheet" href="css/styles.css" media="screen" title="no title" charset="utf-8">
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.js" charset="utf-8"></script> -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.5.7/angular-sanitize.js "></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="http://underscorejs.org/underscore-min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="node_modules/commonjs-require/commonjs-require.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+<!--Chart Placement[2]-->
+<div id ='chartDiv' style="width: 1200px;height:600px;"></div>
+<script type="text/javascript">
+(function() {
+          $.getJSON( "survatadata.json", {
+            format: "json"
+          })
+            .done(function( data ) {
+                var answers = [];
+                var tallies = [];
+                var names = [];
+                console.log(data["tally"][1]["results"]); 
+                var surveyResultsObj = data["tally"][1]["results"];
+                var counter = 1
+                for(var key in surveyResultsObj) {
+                    if(surveyResultsObj.hasOwnProperty(key)){
+                        var tempobj = {};
+                        tempobj["x"] = [key];
+                        tempobj["y"] = [surveyResultsObj[key]];
+                        tempobj["name"] = key;
+                        tempobj["type"] = "bar"; //type of chart
+                        answers.push(tempobj);
+                        names.push(key)
+                        counter++
+                    }
+                }
+                console.log(answers);
+                console.log(names);
+                loadChartWithData(answers, names); 
+
+
+            });
+        })();
+  function loadChartWithData(answers, names) {
+
+      // var trace1 = {
+      //   x: ['giraffes', 'orangutans', 'monkeys'],
+      //   y: [20, 14, 23],
+      //   name: 'SF Zoo',
+      //   type: 'bar'
+      // };
+
+      // var trace2 = {
+      //   x: ['giraffes', 'orangutans', 'monkeys'],
+      //   y: [12, 18, 29],
+      //   name: 'LA Zoo',
+      //   type: 'bar'
+      // };
+
+      var data = answers; 
+      var layout = {
+        title: 'Toilet Paper Retailers'
+      };
+
+      Plotly.newPlot('chartDiv', data, layout);
+   
+  }
+
+  
+ 
+  
+</script>
+</body>
+</html>

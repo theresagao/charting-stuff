@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Enter page title here</title>
+    <link rel="stylesheet" href="css/styles.css" media="screen" title="no title" charset="utf-8">
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.js" charset="utf-8"></script> -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.5.7/angular-sanitize.js "></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="http://underscorejs.org/underscore-min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="node_modules/echarts/dist/echarts.js"></script>
+    <script src="node_modules/commonjs-require/commonjs-require.js"></script>
+</head>
+
+<body>
+
+    <div id="main" style="width: 1200px;height:800px;"></div>
+    <script type="text/javascript">
+        
+        (function() {
+          $.getJSON( "survatadata.json", {
+            format: "json"
+          })
+            .done(function( data ) {
+                var answers = [];
+                var tallies = [];
+                console.log(data["tally"][1]["results"]); 
+                var surveyResultsObj = data["tally"][1]["results"];
+                for(var key in surveyResultsObj) {
+                    if(surveyResultsObj.hasOwnProperty(key)){
+                        answers.push(key);
+                        tallies.push(surveyResultsObj[key]);
+                    }
+                }
+                console.log(answers);
+                console.log(tallies);
+                loadChartWithData(answers, tallies); 
+
+
+            });
+        })();
+        // based on prepared DOM, initialize echarts instance
+        var myChart = echarts.init(document.getElementById('main'));
+
+        function loadChartWithData(answers, tallies) {
+            option["xAxis"][0]["data"] = answers;
+            option["series"][0]["data"] = tallies;
+            myChart.setOption(option);
+        }// specify chart configuration item and data
+        var option = {
+                title: {
+                    x: 'center',
+                    text: 'Toilet Paper',
+                    subtext: 'Rainbow bar example',
+                    link: 'http://echarts.baidu.com/doc/example.html'
+                },
+                tooltip: {
+                    trigger: 'item'
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataView: {show: true, readOnly: false},
+                        restore: {show: true},
+                        saveAsImage: {show: true}
+                    }
+                },
+                calculable: true,
+                grid: {
+                    borderWidth: 0,
+                    y: 80,
+                    y2: 60
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        show: true,
+                        data: [],//['Line', 'Bar', 'Scatter', 'K', 'Pie', 'Radar', 'Chord', 'Force', 'Map', 'Gauge', 'Funnel']
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        show: true
+                    }
+                ],
+                 legend: {
+                    show: true, 
+                    orient: 'horizontal', // 'vertical'
+                    x: 'right', // 'center' | 'left' | {number},
+                    y: 'top', // 'center' | 'bottom' | {number}
+                    backgroundColor: '#eee',
+                    borderColor: 'rgba(178,34,34,0.8)',
+                    borderWidth: 4,
+                    padding: 10,    // [5, 10, 15, 20]
+                    itemGap: 20,
+                    textStyle: {color: 'red'},
+                    },
+                series: [
+                    {
+                        name: 'ECharts',
+                        type: 'bar',
+                        itemStyle: {
+                            normal: {
+                                color: function(params) {
+                                    // build a color map as your need.
+                                    var colorList = [
+                                      '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
+                                       '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
+                                       '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
+                                    ];
+                                    return colorList[params.dataIndex]
+                                },
+                                label: {
+                                    show: true,
+                                    position: 'top',
+                                    formatter: '{b}\n{c}'
+                                }
+                            }
+                        },
+                        data: [],//[12,21,10,4,12,5,6,5,25,23,7],
+                        markPoint: {
+                            tooltip: {
+                                trigger: 'item',
+                                backgroundColor: 'rgba(0,0,0,0)',
+                                formatter: function(params){
+                                    return '<img src="' 
+                                            + params.data.symbol.replace('image://', '')
+                                            + '"/>';
+                                }
+                            },
+                            // 
+                        }
+                    }
+                ]
+            };
+                    
+
+        // use configuration item and data specified to show chart
+        
+    </script>
+</body>
+</html>

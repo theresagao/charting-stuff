@@ -35,5 +35,8 @@
     "ng-highcharts": "*",
     "jquery": "^3.1.0",
     "underscore": "^1.8.3"
+  },
+  "resolutions": {
+    "d3": "~3.5.0"
   }
 }

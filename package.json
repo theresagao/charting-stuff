@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "scss": "node-sass --output-style expanded --source-map-contents --indent-type space --indent-width 4 -o css/ scss/*",
     "autoprefixer": "postcss -u autoprefixer --autoprefixer.browsers '> 1%, last 3 version' -r css/style.css",
-    "serve": "browser-sync start --server --startPath '/' --files 'css/*.css, js/*.js, index.html'",
+    "serve": "browser-sync start --server --startPath '/' --files 'css/*.css, js/*.js, *.html'",
     "build:scss": "npm run scss && npm run autoprefixer",
     "build:all": "npm run build:scss",
     "watch:scss": "onchange 'scss/*.scss' -- npm run build:scss",
@@ -39,6 +39,7 @@
     "uglify-js": "^2.7.0"
   },
   "dependencies": {
+    "chart.js": "^2.2.0-rc.2",
     "echarts": "^3.2.2"
   }
 }
